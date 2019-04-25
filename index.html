@@ -256,7 +256,7 @@ WeRTC Conference Project
                     alert("Sending SMS to " + mobile + " " + restLink);
                     var data;
                     data = $.get(restLink);
-                    if(data->message == "Text Sent")  {
+                    if(data.message == "Text Sent")  {
                         alert("Link Sent Successfully.");
                     } else {
                         alert("Link not Sent.");
@@ -272,7 +272,7 @@ WeRTC Conference Project
                     alert("Sending email to " + email + " " + link);
                     var data;
                     data = $.get(restLink);
-                    if(data->message == "Mail Sent")  {
+                    if(data.message == "Mail Sent")  {
                         alert("Link Sent Successfully.");
                     } else {
                         alert("Link not Sent.");
