@@ -253,13 +253,12 @@ WeRTC Conference Project
                     var link = $('#share_link').attr("href");
                     alert("Sending SMS to " + mobile + " " + link);
                     restLink = "https://messagingpis.herokuapp.com/sms/" + mobile + '$' + link;
-                    //callREST(restLink);
                     $.get(restLink);
-                    // if(data == "Text Sent")  {
-                    //     alert("Link Sent Successfully.");
-                    // } else {
-                    //     alert("Link not Sent.");
-                    // }
+                    if(data == "Text Sent")  {
+                        alert("Link Sent Successfully.");
+                    } else {
+                        alert("Link not Sent.");
+                    }
 
                 }
 
@@ -269,27 +268,12 @@ WeRTC Conference Project
                     var link = $('share_link').val();
                     alert("Sending email to " + email + " " + link);
                     restLink = "https://messagingpis.herokuapp.com/email/" + email + '$' + link;
-                    //callREST(restLink);
                     $.get(restLink);
-                    // if(data == "Mail Sent")  {
-                    //     alert("Link Sent Successfully.");
-                    // } else {
-                    //     alert("Link not Sent.");
-                    // }
-                }
-
-
-                function callREST(link) {
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function() {
-                        if (this.readyState == 4 && this.status == 200) {
-                                alert("Link Sent Successfully.");
-                        } else {
-                            alert("Link not Sent.");
-                        }
-                    };
-                    xhttp.open("GET", link, true);
-                    xhttp.send();
+                    if(data == "Mail Sent")  {
+                        alert("Link Sent Successfully.");
+                    } else {
+                        alert("Link not Sent.");
+                    }
                 }
 
                 function setupNewRoomButtonClickHandler() {
