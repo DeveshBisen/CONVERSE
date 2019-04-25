@@ -129,7 +129,7 @@ WeRTC Conference Project
                             <button class="btn btn-danger" onClick="sendSms();"> Send SMS </button>
                             </div>
                             <div class="col-12" style="background: #d9b38c;">
-                            <input type="text" id="email_id" placeholder="Email"  class="form-control input-sm" >
+                            <input type="text" id="email_id" placeholder="Email" class="form-control input-sm">
                             <button class="btn btn-danger" onClick="sendEmail();"> Send Email </button>
                             </div>
                             </center>
@@ -251,6 +251,7 @@ WeRTC Conference Project
 
                 function sendSms() {
                     var mobile = $('#mobile_no').val();
+                    console.log(mobile);
                     restLink = "https://messagingpis.herokuapp.com/sms/" + mobile + "$" + window.location.href.substring(34);
                     alert("Sending SMS to " + mobile);
                     $.get(restLink);
@@ -258,7 +259,8 @@ WeRTC Conference Project
 
 
                 function sendEmail() {
-                    var email = $('email_id').val();
+                    var email = $('#email_id').val();
+                    console.log(email);
                     restLink = "https://messagingpis.herokuapp.com/email/" + email + "$" + window.location.href.substring(34);
                     alert("Sending email to " + email);
                     $.get(restLink);
