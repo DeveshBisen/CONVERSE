@@ -255,7 +255,7 @@ WeRTC Conference Project
                     restLink = "https://messagingpis.herokuapp.com/sms/" + mobile + "$www.google.com"; //+ link;
                     alert("Sending SMS to " + mobile + " " + restLink);
                     var data;
-                    $.get(restLink, data);
+                    data = $.get(restLink);
                     if(data == "Text Sent")  {
                         alert("Link Sent Successfully.");
                     } else {
@@ -271,7 +271,7 @@ WeRTC Conference Project
                     restLink = "https://messagingpis.herokuapp.com/email/" + email + "$" + link;
                     alert("Sending email to " + email + " " + link);
                     var data;
-                    $.get(restLink, data);
+                    data = $.get(restLink);
                     if(data == "Mail Sent")  {
                         alert("Link Sent Successfully.");
                     } else {
