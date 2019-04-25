@@ -252,8 +252,8 @@ WeRTC Conference Project
                 function sendSms() {
                     var mobile = $('#mobile_no').val();
                     var link = $('#share_link').attr("href");
-                    restLink = "https://messagingpis.herokuapp.com/sms/" + mobile + "$" + link;
-                    alert("Sending SMS to " + mobile + " " + restLink);
+                    restLink = "https://messagingpis.herokuapp.com/sms/" + mobile + "$" + link.substring(8);
+                    alert("Sending SMS to " + mobile + " with Link " + link);
                     var data;
                     data = $.get(restLink);
                     if(data.message == "Text Sent")  {
@@ -268,8 +268,8 @@ WeRTC Conference Project
                 function sendEmail() {
                     var email = $('email_id').val();
                     var link = $('share_link').val();
-                    restLink = "https://messagingpis.herokuapp.com/email/" + email + "$" + link;
-                    alert("Sending email to " + email + " " + link);
+                    restLink = "https://messagingpis.herokuapp.com/email/" + email + "$" + link.substring(8);
+                    alert("Sending email to " + email + " with Link" + link);
                     var data;
                     data = $.get(restLink);
                     if(data.message == "Mail Sent")  {
