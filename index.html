@@ -85,6 +85,7 @@
             <div class="container" >
            	<div class="row justify-content-center">
 		    <div class="col-3" style="background: #d9b38c;">
+                <br>
 	            <section class="experiment">
 	                <section>
 	                    <span>
@@ -93,13 +94,13 @@
                             </a>
 	                    </span>
 	                    <center>
+                        <br>
 	                    <input type="text" id="conference-name" placeholder="Conference Name"  class="form-control input-sm" >
 	                    <button type="button" id="setup-new-room" class="btn btn-primary">Setup New Conference</button>
                         <br> <br>
                         <button class="btn btn-danger" onClick="window.location.href = origin_page;"> Reset </button>
 	                    </center>
                         <br>
-	                    <br>
 	                </section>
 
 	            </section>
@@ -109,6 +110,7 @@
 
             <div class="col-3" style="background: #d9b38c;">
                             <center>
+                            <p class="style3"> Share Link </p>
                             <div class="col-12" style="background: #d9b38c;">
                             <input type="text" id="mobile_no" placeholder="Mobile Number"  class="form-control input-sm" >
                             <button class="btn btn-danger" onClick="sendSms();"> Send SMS </button>
@@ -124,7 +126,7 @@
 
             <div  class="col-3" style="background: #d9b38c;">
             <center>
-            <div id="videos-container2"> <image src="videoicon1.png" id="videoicon1"> </image></div>
+            <div id="videos-container2"> <image src="videoicon1.png" id="videoicon1" style='height: 100%; width: 100%; object-fit: contain; '> </image></div>
             </center>
             </div>
 
@@ -288,7 +290,7 @@
                             mediaElement.toggle('mute-audio');
 
                             if (video_no == 1) { 
-                                videosContainer2.innerHTML = ' '   
+                                videosContainer2.innerHTML = '<br>';
                                 videosContainer2.appendChild(mediaElement);
                                 video_no = video_no + 1;
                             } 
