@@ -1,17 +1,14 @@
-WeRTC Conference Project
-
+<!-- WebRTC Conference Project -->
 <!DOCTYPE html>
 <html lang="en">
     <head>	
-        <title>WebRTC Video Conferencing</title>
-
+        <title>WebRTC Conference Project</title>
         <script>
             if(!location.hash.replace('#', '').length) {
                 location.href = location.href.split('#')[0] + '#' + (Math.random() * 100).toString().replace('.', '');
                 location.reload();
             }
         </script>
-        <script src="jquery-1.11.0.min.js"></script>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta charset="utf-8">
@@ -61,7 +58,6 @@ WeRTC Conference Project
                 padding: .5em;
             }
 
-
         </style>
 
         <script src="support/getMediaElement.min.js"> </script>
@@ -71,6 +67,7 @@ WeRTC Conference Project
         <script src="support/CodecsHandler.js"></script>
         <script src="support/RTCPeerConnection-v1.5.js"> </script>
         <script src="support/conference.js"> </script>
+        <script src="jquery-1.11.0.min.js"></script>
 
     </head>
 
@@ -78,22 +75,12 @@ WeRTC Conference Project
         <article>
             <br>
             <header style="text-align: center;"> 
-                <div class="container">
-                <div class="row">
-                <div class="col-7">
                 <h1 class="style1" >
                     WebRTC Video Conferencing
                 </h1>
-                </div>
-               <!--  <div class="col-4">
-                <input type="text" id="phone" placeholder="Mobile Number" class="form-control input-sm" >
-                </div>
-                <div class="col-2">
-                <button class="btn btn-primary" onclick="sendSMS()"> Send Link </button>
-                </div> -->
-                </div>
-                </div>
             </header>
+
+            <center><table style="width: 40%;" id="rooms-list"></table></center>
 
             <div class="container" >
            	<div class="row justify-content-center">
@@ -115,8 +102,6 @@ WeRTC Conference Project
 	                    <br>
 	                </section>
 
-	                <table style="width: 100%;" id="rooms-list"></table>
-
 	            </section>
   			</div>
 
@@ -133,8 +118,7 @@ WeRTC Conference Project
                             <button class="btn btn-danger" onClick="sendEmail();"> Send Email </button>
                             </div>
                             </center>
-                        </div>
-
+            </div>
 
             <div class="col-1"> </div>
 
@@ -143,7 +127,6 @@ WeRTC Conference Project
             <div id="videos-container2"> <image src="videoicon1.png" id="videoicon1"> </image></div>
             </center>
             </div>
-
 
             </div>
             </div>
@@ -212,7 +195,7 @@ WeRTC Conference Project
                         if (typeof roomsList === 'undefined') roomsList = document.body;
 
                         var tr = document.createElement('tr');
-                        tr.innerHTML = '<td><strong>' + room.roomName + '</strong> shared a conferencing room with you!</td>' +  '<td> <button class="join"> Join </button> </td>';
+                        tr.innerHTML = '<td><strong>' + room.roomName + '</strong> shared a conferencing room with you!</td>' +  '<td> <button class="btn btn-primary">Join</button> </td>';
                         roomsList.appendChild(tr);
 
                         var joinRoomButton = tr.querySelector('.join');
