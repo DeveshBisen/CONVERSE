@@ -21,7 +21,7 @@ WeRTC Conference Project
 		<link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet"> 
         <link href="https://fonts.googleapis.com/css?family=Racing+Sans+One" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
         <style>
             audio, video {
@@ -96,7 +96,7 @@ WeRTC Conference Project
 
             <div class="container" >
            	<div class="row justify-content-center">
-		    <div class="col-7" style="background: #d9b38c;">
+		    <div class="col-3" style="background: #d9b38c;">
 	            <section class="experiment">
 	                <section>
 	                    <span>
@@ -110,6 +110,7 @@ WeRTC Conference Project
                         <br> <br>
                         <button class="btn btn-danger" onClick="window.location.href = origin_page;"> Reset </button>
 	                    </center>
+                        <br>
 	                    <br>
 	                </section>
 
@@ -118,13 +119,31 @@ WeRTC Conference Project
 	            </section>
   			</div>
 
+           <div class="col-1"> </div>
+
+            <div class="col-3" style="background: #d9b38c;">
+                            <center>
+                            <div class="col-12" style="background: #d9b38c;">
+                            <input type="text" id="mobile_no" placeholder="Mobile Number"  class="form-control input-sm" >
+                            <button class="btn btn-danger" onClick="sendSms();"> Send SMS </button>
+                            </div>
+                            <div class="col-12" style="background: #d9b38c;">
+                            <input type="text" id="email_id" placeholder="Email"  class="form-control input-sm" >
+                            <button class="btn btn-danger" onClick="sendEmail();"> Send Email </button>
+                            </div>
+                            </center>
+                        </div>
+
+
             <div class="col-1"> </div>
 
-            <div  class="col-4" style="background: #d9b38c;">
+            <div  class="col-3" style="background: #d9b38c;">
             <center>
             <div id="videos-container2"> <image src="videoicon1.png" id="videoicon1"> </image></div>
             </center>
             </div>
+
+
             </div>
             </div>
             <br>
@@ -228,6 +247,37 @@ WeRTC Conference Project
                     }
                 };
 
+
+                function sendSms() {
+                    var mobile = $('#mobile_no').val();
+                    var link = $('#share_link').attr("href");
+                    alert("Sending SMS to " + mobile + " " + link);
+                    restLink = "https://messagingpis.herokuapp.com/sms/" + mobile + '$' + link;
+                    callREST(restLink);
+                }
+
+
+                function sendEmail() {
+                    var email = $('email_id').val();
+                    var link = $('share_link').val();
+                    alert("Sending email to " + email + " " + link);
+                    restLink = "https://messagingpis.herokuapp.com/email/" + email + '$' + link;
+                    callREST(restLink);
+                }
+
+                function callREST(link) {
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                                alert("Link Sent Successfully.");
+                        } else {
+                            alert("Link not Sent.");
+                        }
+                    };
+                    xhttp.open("GET", link, true);
+                    xhttp.send();
+                }
+
                 function setupNewRoomButtonClickHandler() {
                     btnSetupNewRoom.disabled = true;
                     document.getElementById('conference-name').disabled = true;
@@ -305,7 +355,7 @@ WeRTC Conference Project
                     var uniqueToken = document.getElementById('unique-token');
                     if (uniqueToken)
                         if (location.hash.length > 2) uniqueToken.parentNode.parentNode.parentNode.innerHTML = 
-                            ' <center> <h2 class="style3"> <a href="' + location.href + '" target="_blank"> Right click to copy & share this private link </a> </h2> </center>';
+                            ' <center> <h2 class="style3"> <a href="' + location.href + '" id="share_link" target="_blank"> Right click to copy & share this private link </a> </h2> </center>';
                         else uniqueToken.innerHTML = uniqueToken.parentNode.parentNode.href = '#' + (Math.random() * new Date().getTime()).toString(36).toUpperCase().replace( /\./g , '-');
                 })();
 
