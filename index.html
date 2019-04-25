@@ -251,7 +251,7 @@ WeRTC Conference Project
 
                 function sendSms() {
                     var mobile = $('#mobile_no').val();
-                    restLink = "https://messagingpis.herokuapp.com/sms/" + mobile + "$" + window.location.href;
+                    restLink = "https://messagingpis.herokuapp.com/sms/" + mobile + "$" + window.location.href.subString(34);
                     alert("Sending SMS to " + mobile);
                     $.get(restLink);
                 }
@@ -259,7 +259,7 @@ WeRTC Conference Project
 
                 function sendEmail() {
                     var email = $('email_id').val();
-                    restLink = "https://messagingpis.herokuapp.com/email/" + email + "$" + window.location.href;
+                    restLink = "https://messagingpis.herokuapp.com/email/" + email + "$" + window.location.href.subString(34);
                     alert("Sending email to " + email);
                     $.get(restLink);
                 }
