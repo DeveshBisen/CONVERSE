@@ -235,7 +235,7 @@
                 function sendSms() {
                     var mobile = $('#mobile_no').val();
                     console.log(mobile);
-                    restLink = "https://messagingpis.herokuapp.com/sms/" + mobile + "$" + window.location.href.substring(34);
+                    restLink = "https://messagingpis.herokuapp.com/sms/" + mobile + "$" + window.location.href.substring(33);
                     alert("Sending SMS to " + mobile);
                     $.get(restLink);
                 }
@@ -244,7 +244,7 @@
                 function sendEmail() {
                     var email = $('#email_id').val();
                     console.log(email);
-                    restLink = "https://messagingpis.herokuapp.com/email/" + email + "$" + window.location.href.substring(34);
+                    restLink = "https://messagingpis.herokuapp.com/email/" + email + "$" + window.location.href.substring(33);
                     alert("Sending email to " + email);
                     $.get(restLink);
                 }
