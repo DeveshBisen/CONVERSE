@@ -253,7 +253,14 @@ WeRTC Conference Project
                     var link = $('#share_link').attr("href");
                     alert("Sending SMS to " + mobile + " " + link);
                     restLink = "https://messagingpis.herokuapp.com/sms/" + mobile + '$' + link;
-                    callREST(restLink);
+                    //callREST(restLink);
+                    $.get(restLink);
+                    // if(data == "Text Sent")  {
+                    //     alert("Link Sent Successfully.");
+                    // } else {
+                    //     alert("Link not Sent.");
+                    // }
+
                 }
 
 
@@ -262,8 +269,15 @@ WeRTC Conference Project
                     var link = $('share_link').val();
                     alert("Sending email to " + email + " " + link);
                     restLink = "https://messagingpis.herokuapp.com/email/" + email + '$' + link;
-                    callREST(restLink);
+                    //callREST(restLink);
+                    $.get(restLink);
+                    // if(data == "Mail Sent")  {
+                    //     alert("Link Sent Successfully.");
+                    // } else {
+                    //     alert("Link not Sent.");
+                    // }
                 }
+
 
                 function callREST(link) {
                     var xhttp = new XMLHttpRequest();
