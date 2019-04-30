@@ -126,6 +126,8 @@
 
             <div  class="col-3" style="background: #d9b38c;">
             <center>
+            <br>
+            <br>
             <div id="videos-container2"> <image src="videoicon1.png" id="videoicon1" style='height: 100%; width: 100%; object-fit: contain; '> </image></div>
             </center>
             </div>
@@ -290,7 +292,7 @@
                             mediaElement.toggle('mute-audio');
 
                             if (video_no == 1) { 
-                                videosContainer2.innerHTML = '<br><br>';
+                                videosContainer2.innerHTML = '';
                                 videosContainer2.appendChild(mediaElement);
                                 video_no = video_no + 1;
                             } 
