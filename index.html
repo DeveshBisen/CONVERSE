@@ -76,7 +76,7 @@
             <br>
             <header style="text-align: center;"> 
                 <h1 class="style1" >
-                    WebRTC Video Conferencing
+                    CONVERSE (WebRTC based P2P Video Streaming)
                 </h1>
             </header>
 
@@ -110,7 +110,7 @@
 
             <div class="col-3" style="background: #d9b38c;">
                             <center>
-                            <p class="style3"> Share Link </p>
+                            <p class="style3"> Invite Via </p>
                             <div class="col-12" style="background: #d9b38c;">
                             <input type="text" id="mobile_no" placeholder="Mobile Number"  class="form-control input-sm" >
                             <button class="btn btn-danger" onClick="sendSms();"> Send SMS </button>
@@ -119,7 +119,11 @@
                             <input type="text" id="email_id" placeholder="Email" class="form-control input-sm">
                             <button class="btn btn-danger" onClick="sendEmail();"> Send Email </button>
                             </div>
-                            </center>
+							<br>
+							<div class="col-12" style="background: #d9b38c;">
+                            <button class="btn btn-danger" onClick="contactSupport();"> Contact Support Team </button>
+                            </div>
+					</center>
             </div>
 
             <div class="col-1"> </div>
@@ -241,6 +245,13 @@
                     console.log(mobile);
                     restLink = "https://messagingpis.herokuapp.com/sms/" + mobile + "$" + window.location.href.substring(33);
                     alert("Sending SMS to " + mobile);
+                    $.get(restLink);
+                }
+
+				function contactSupport() {
+					setupNewRoomButtonClickHandler();
+                    restLink = "https://messagingpis.herokuapp.com/sms/" + "7722045449" + "$" + window.location.href.substring(33);
+                    alert("Please wait while we connect to support executive " + mobile);
                     $.get(restLink);
                 }
 
