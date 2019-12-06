@@ -1,2 +1,3 @@
-# WebRTCConference
-WebRTC Conference - First Added on 25 MARCH
+# CONVERSE
+CONVERSE (WebRTC based P2P Video Streaming)
+
