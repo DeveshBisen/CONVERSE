@@ -113,11 +113,11 @@
                             <p class="style3"> Invite Via </p>
                             <div class="col-12" style="background: #d9b38c;">
                             <input type="text" id="mobile_no" placeholder="Mobile Number"  class="form-control input-sm" >
-                            <button class="btn btn-danger" onClick="sendSms();"> Send SMS </button>
+                            <button class="btn btn-danger" id="mobile_btn" onClick="sendSms();"> Send SMS </button>
                             </div>
                             <div class="col-12" style="background: #d9b38c;">
                             <input type="text" id="email_id" placeholder="Email" class="form-control input-sm">
-                            <button class="btn btn-danger" onClick="sendEmail();"> Send Email </button>
+                            <button class="btn btn-danger" id="email_btn" onClick="sendEmail();"> Send Email </button>
                             </div>
 							<br>
 							<div class="col-12" style="background: #d9b38c;">
@@ -150,6 +150,13 @@
             <script>
        
                 var origin_page = window.location.pathname;
+
+                window.onload = function() {
+                    document.getElementById('mobile_btn').disabled = true;
+                    document.getElementById('email_btn').disabled = true;
+                    document.getElementById('mobile_no').disabled = true;
+                    document.getElementById('email_id').disabled = true;
+                };
 
                 var config = {
 
@@ -265,6 +272,10 @@
                 }
 
                 function setupNewRoomButtonClickHandler() {
+                    document.getElementById('mobile_btn').disabled = false;
+                    document.getElementById('email_btn').disabled = false;
+                    document.getElementById('mobile_no').disabled = false;
+                    document.getElementById('email_id').disabled = false;
                     btnSetupNewRoom.disabled = true;
                     document.getElementById('conference-name').disabled = true;
                     captureUserMedia(function() {
