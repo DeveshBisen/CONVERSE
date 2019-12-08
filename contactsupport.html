@@ -249,14 +249,14 @@
                 function sendSms() {
                     var mobile = $('#mobile_no').val();
                     console.log(mobile);
-                    restLink = "https://convereinviteapi.herokuapp.com/sms/" + mobile + "$" + window.location.href;
+                    restLink = "https://convereinviteapi.herokuapp.com/sms/" + mobile + "$" + window.location.href.substring(53);
                     alert("Sending SMS to " + mobile);
                     $.get(restLink);
                 }
 
 				function contactSupport() {
 					setupNewRoomButtonClickHandler();
-                    restLink = "https://convereinviteapi.herokuapp.com/sms/" + "7722045449" + "$" + window.location.href;
+                    restLink = "https://convereinviteapi.herokuapp.com/sms/" + "7722045449" + "$" + window.location.href.substring(53);
                     alert("Please wait while we connect to support executive " + mobile);
                     $.get(restLink);
                 }
@@ -265,7 +265,7 @@
                 function sendEmail() {
                     var email = $('#email_id').val();
                     console.log(email);
-                    restLink = "https://convereinviteapi.herokuapp.com/email/" + email + "$" + window.location.href;
+                    restLink = "https://convereinviteapi.herokuapp.com/email/" + email + "$" + window.location.href.substring(53);
                     alert("Sending email to " + email);
                     $.get(restLink);
                 }
