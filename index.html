@@ -75,7 +75,7 @@
                 var voucheCode = document.getElementById("voucher_code").value;
                 var flightID = document.getElementById("booking_flight_id").value;
                 
-                const url = "https://convereinviteapi.herokuapp.com/flight/"+voucheCode+"$"+flightID;
+                const url = "https://convereinviteapi.herokuapp.com/bookflight/"+voucheCode+"$"+flightID;
 
                 var request = new XMLHttpRequest()
                 request.open('GET', url, true)
