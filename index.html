@@ -25,6 +25,8 @@
 
         <div class="container" >
         <div class="col-3">
+        <h2> Search Flight </h2>
+        <br>
         <h2> Source </h2> <input type="text" id="flight-source" placeholder="Source" class="form-control input-sm">
         </div>
 
@@ -47,6 +49,7 @@
         </div>
 
         <div class="container" >
+            <h2> Book Flight (Using Voucher)</h2>
             <br>
             <div class="col-6">
                 <input type="text" id="booking_flight_id" placeholder="Flight Code" class="form-control input-sm">
@@ -102,10 +105,11 @@
             }
 
             function searchFlights() {
-                var source = document.getElementById("flight-source").value;
-                var destination = document.getElementById("flight-destination").value;   
+                var source = document.getElementById("flight-source").value.toLowerCase();
+                var destination = document.getElementById("flight-destination").value.toLowerCase();   
         
                 const ul = document.getElementById('flights');
+                ul.innerHTML = "";
 
                 const url = "https://convereinviteapi.herokuapp.com/flight/"+source+"$"+destination;
 
@@ -114,13 +118,19 @@
                 request.onload = function() {
                     var data = JSON.parse(this.response)
                     if (request.status >= 200 && request.status < 400) {
-                        data.forEach(flight => {
-                            let li = createNode('li'), 
-                            span = createNode('span');
-                            span.innerHTML = `ID - ${flight[5]} SOURCE - ${flight[0]}  DESTINATION - ${flight[1]}  DEPARTURE - ${flight[2]}   ARRIVAL - ${flight[3]}   FARE(In INR) - ${flight[4]}`;
-                            append(li, span);
-                            append(ul, li);
-                        })
+                            var count = 0;
+                            data.forEach(flight => {
+                                let li = createNode('li'), 
+                                span = createNode('span');
+                                span.innerHTML = `Flight Code - ${flight[5]} SOURCE - ${flight[0]}  DESTINATION - ${flight[1]}  DEPARTURE - ${flight[2]}   ARRIVAL - ${flight[3]}   FARE(In INR) - ${flight[4]}`;
+                                append(li, span);
+                                append(ul, li);
+                                count++;
+                            })
+                            
+                            if (count == 0) {
+                                alert("No Flight Found");
+                            }
                     } else {
                         alert("Something unexpected happened");
                         console.log('error')
