@@ -1,0 +1,393 @@
+<!-- WebRTC Conference Project -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>	
+        <title>WebRTC Conference Project</title>
+        <script>
+            if(!location.hash.replace('#', '').length) {
+                location.href = location.href.split('#')[0] + '#' + (Math.random() * 100).toString().replace('.', '');
+                location.reload();
+            }
+        </script>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+        <link rel="stylesheet" href="mystyle.css">
+		<link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css?family=Racing+Sans+One" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+
+        <style>
+            audio, video {
+                -moz-transition: all 1s ease;
+                -ms-transition: all 1s ease;
+
+                -o-transition: all 1s ease;
+                -webkit-transition: all 1s ease;
+                transition: all 1s ease;
+                vertical-align: top;
+            }
+
+            input {
+                border: 1px solid #d9d9d9;
+                border-radius: 1px;
+                font-size: 2em;
+                margin: .2em;
+                width: 30%;
+            }
+
+            .setup {
+                border-bottom-left-radius: 0;
+                border-top-left-radius: 0;
+                font-size: 102%;
+                height: 47px;
+                margin-left: -9px;
+                margin-top: 8px;
+                position: absolute;
+            }
+
+            p { padding: 1em; }
+
+            li {
+                border-bottom: 1px solid rgb(189, 189, 189);
+                border-left: 1px solid rgb(189, 189, 189);
+                padding: .5em;
+            }
+
+        </style>
+
+        <script src="support/getMediaElement.min.js"> </script>
+        <script src="support/socket.io.js"> </script>
+        <script src="support/adapter-latest.js"></script>
+        <script src="support/IceServersHandler.js"></script>
+        <script src="support/CodecsHandler.js"></script>
+        <script src="support/RTCPeerConnection-v1.5.js"> </script>
+        <script src="support/conference.js"> </script>
+        <script src="jquery-1.11.0.min.js"></script>
+
+    </head>
+
+    <body>
+        <article>
+            <br>
+            <header style="text-align: center;"> 
+                <h1 class="style1" >
+                    Contact Support
+                </h1>
+            </header>
+
+            <center><table style="width: 40%;" id="rooms-list"></table></center>
+
+            <div class="container" >
+           	<div class="row justify-content-center">
+		    <div class="col-3" style="background: #d9b38c;">
+                <br>
+	            <section class="experiment">
+	                <section>
+	                    <span>
+	                        Private ?? <a href="/video-conferencing/" target="_blank" title="Open this link in new tab. Then your conference room will be private!">
+                                <code> <strong id="unique-token">#123456789</strong> </code>
+                            </a>
+	                    </span>
+	                    <center>
+                        <br>
+	                    <input type="text" id="conference-name" placeholder="Conference Name"  class="form-control input-sm" >
+	                    <button type="button" id="setup-new-room" class="btn btn-primary">Setup New Conference</button>
+                        <br> <br>
+                        <button class="btn btn-danger" onClick="window.location.href = origin_page;"> Reset </button>
+	                    </center>
+                        <br>
+	                </section>
+
+	            </section>
+  			</div>
+
+           <div class="col-1"> </div>
+
+            <div class="col-3" style="background: #d9b38c;">
+                            <center>
+                            <p class="style3"> Invite Via </p>
+                            <div class="col-12" style="background: #d9b38c;">
+                            <input type="text" id="mobile_no" placeholder="Mobile Number"  class="form-control input-sm" >
+                            <button class="btn btn-danger" id="mobile_btn" onClick="sendSms();"> Send SMS </button>
+                            </div>
+                            <div class="col-12" style="background: #d9b38c;">
+                            <input type="text" id="email_id" placeholder="Email" class="form-control input-sm">
+                            <button class="btn btn-danger" id="email_btn" onClick="sendEmail();"> Send Email </button>
+                            </div>
+							<br>
+							<div class="col-12" style="background: #d9b38c;">
+                            <button class="btn btn-danger" onClick="contactSupport();"> Contact Support Team </button>
+                            </div>
+					</center>
+            </div>
+
+            <div class="col-1"> </div>
+
+            <div  class="col-3" style="background: #d9b38c;">
+            <center>
+            <br>
+            <br>
+            <div id="videos-container2"> <image src="videoicon1.png" id="videoicon1" style='height: 100%; width: 100%; object-fit: contain; '> </image></div>
+            </center>
+            </div>
+
+            </div>
+            </div>
+            <br>
+            <div class="container" >
+            <div class="col-12" style="background: #d9b38c;">
+            <center>
+            <div id="videos-container"> <image src="videoicon1.png" id="videoicon2"> </image></div>
+            </center>
+            </div>
+            </div> 
+
+            <script>
+       
+                var origin_page = window.location.pathname;
+
+                window.onload = function() {
+                    document.getElementById('mobile_btn').disabled = true;
+                    document.getElementById('email_btn').disabled = true;
+                    document.getElementById('mobile_no').disabled = true;
+                    document.getElementById('email_id').disabled = true;
+                };
+
+                var config = {
+
+                    openSocket: function(config) {
+                        var SIGNALING_SERVER = 'https://socketio-over-nodejs2.herokuapp.com:443/';
+
+                        config.channel = config.channel || location.href.replace(/\/|:|#|%|\.|\[|\]/g, '');
+                        var sender = Math.round(Math.random() * 999999999) + 999999999;
+
+                        io.connect(SIGNALING_SERVER).emit('new-channel', {
+                            channel: config.channel,
+                            sender: sender
+                        });
+
+                        var socket = io.connect(SIGNALING_SERVER + config.channel);
+                        socket.channel = config.channel;
+                        socket.on('connect', function () {
+                            if (config.callback) config.callback(socket);
+                        });
+
+                        socket.send = function (message) {
+                            socket.emit('message', {
+                                sender: sender,
+                                data: message
+                            });
+                        };
+
+                        socket.on('message', config.onmessage);
+                    },
+                    onRemoteStream: function(media) {
+                        var mediaElement = getMediaElement(media.video, {
+                            width: 300,
+                            buttons: ['mute-audio', 'mute-video', 'full-screen', 'volume-slider']
+                        });
+                        mediaElement.id = media.stream.streamid;
+                        if (video_no_1 == 1) {
+                            videosContainer.innerHTML = '';
+                            video_no_1 = video_no_1 + 1;
+                        }
+                        videosContainer.appendChild(mediaElement);
+                    },
+                    onRemoteStreamEnded: function(stream, video) {
+                        if (video.parentNode && video.parentNode.parentNode && video.parentNode.parentNode.parentNode) {
+                            video.parentNode.parentNode.parentNode.removeChild(video.parentNode.parentNode);
+                        }
+                    },
+                    onRoomFound: function(room) {
+                        var alreadyExist = document.querySelector('button[data-broadcaster="' + room.broadcaster + '"]');
+                        if (alreadyExist) return;
+
+                        if (typeof roomsList === 'undefined') roomsList = document.body;
+
+                        var tr = document.createElement('tr');
+                        tr.innerHTML = '<td><strong>' + room.roomName + '</strong> shared a conferencing room with you!</td>' +  '<td> <button class="btn btn-primary" id="join">Join</button> </td>';
+                        roomsList.appendChild(tr);
+
+                        var joinRoomButton = tr.querySelector('#join');
+                        joinRoomButton.setAttribute('data-broadcaster', room.broadcaster);
+                        joinRoomButton.setAttribute('data-roomToken', room.roomToken);
+                        joinRoomButton.onclick = function() {
+                            this.disabled = true;
+
+                            var broadcaster = this.getAttribute('data-broadcaster');
+                            var roomToken = this.getAttribute('data-roomToken');
+                            captureUserMedia(function() {
+                                conferenceUI.joinRoom({
+                                    roomToken: roomToken,
+                                    joinUser: broadcaster
+                                });
+                            }, function() {
+                                joinRoomButton.disabled = false;
+                            });
+                        };
+                    },
+                    onRoomClosed: function(room) {
+                        var joinButton = document.querySelector('button[data-roomToken="' + room.roomToken + '"]');
+                        if (joinButton) {
+                            // joinButton.parentNode === <li>
+                            // joinButton.parentNode.parentNode === <td>
+                            // joinButton.parentNode.parentNode.parentNode === <tr>
+                            // joinButton.parentNode.parentNode.parentNode.parentNode === <table>
+                            joinButton.parentNode.parentNode.parentNode.parentNode.removeChild(joinButton.parentNode.parentNode.parentNode);
+                        }
+                    },
+                    onReady: function() {
+                        console.log('now you can open or join rooms');
+                    }
+                };
+
+                function sendSms() {
+                    var mobile = $('#mobile_no').val();
+                    console.log(mobile);
+                    restLink = "https://convereinviteapi.herokuapp.com/sms/" + mobile + "$" + window.location.href.substring(34);
+                    alert("Sending SMS to " + mobile);
+                    $.get(restLink);
+                }
+
+				function contactSupport() {
+					setupNewRoomButtonClickHandler();
+                    restLink = "https://convereinviteapi.herokuapp.com/sms/" + "7722045449" + "$" + window.location.href.substring(34);
+                    alert("Please wait while we connect to support executive " + mobile);
+                    $.get(restLink);
+                }
+
+
+                function sendEmail() {
+                    var email = $('#email_id').val();
+                    console.log(email);
+                    restLink = "https://convereinviteapi.herokuapp.com/email/" + email + "$" + window.location.href.substring(34);
+                    alert("Sending email to " + email);
+                    $.get(restLink);
+                }
+
+                function setupNewRoomButtonClickHandler() {
+                    document.getElementById('mobile_btn').disabled = false;
+                    document.getElementById('email_btn').disabled = false;
+                    document.getElementById('mobile_no').disabled = false;
+                    document.getElementById('email_id').disabled = false;
+                    btnSetupNewRoom.disabled = true;
+                    document.getElementById('conference-name').disabled = true;
+                    captureUserMedia(function() {
+                        conferenceUI.createRoom({
+                            roomName: (document.getElementById('conference-name') || { }).value || 'Anonymous'
+                        });
+                    }, function() {
+                        btnSetupNewRoom.disabled = document.getElementById('conference-name').disabled = false;
+                    });
+                }
+
+                function captureUserMedia(callback, failure_callback) {
+                    var video = document.createElement('video');
+                    video.muted = true;
+                    video.volume = 0;
+
+                    try {
+                        video.setAttributeNode(document.createAttribute('autoplay'));
+                        video.setAttributeNode(document.createAttribute('playsinline'));
+                        video.setAttributeNode(document.createAttribute('controls'));
+                    } catch (e) {
+                        video.setAttribute('autoplay', true);
+                        video.setAttribute('playsinline', true);
+                        video.setAttribute('controls', true);
+                    }
+
+                    getUserMedia({
+                        video: video,
+                        onsuccess: function(stream) {
+                            config.attachStream = stream;
+
+                            var mediaElement = getMediaElement(video, {
+                                width: videoicon1.width,
+                                buttons: [''] // 'mute-audio', 'mute-video', 'full-screen', 'volume-slider'
+                            });
+                            mediaElement.toggle('mute-audio');
+
+                            if (video_no == 1) { 
+                                videosContainer2.innerHTML = '';
+                                videosContainer2.appendChild(mediaElement);
+                                video_no = video_no + 1;
+                            } 
+
+                            callback && callback();
+                        },
+                        onerror: function() {
+                            alert('unable to get access to your webcam');
+                            callback && callback();
+                        }
+                    });
+                }
+
+                var conferenceUI = conference(config);
+
+                /* UI specific */
+
+                var video_no = 1;
+                var video_no_1 = 1;
+                var videosContainer = document.getElementById('videos-container') || document.body;
+                var videosContainer2 = document.getElementById('videos-container2') 
+                var btnSetupNewRoom = document.getElementById('setup-new-room');
+                var roomsList = document.getElementById('rooms-list');
+
+                if (btnSetupNewRoom) btnSetupNewRoom.onclick = setupNewRoomButtonClickHandler;
+
+                function rotateVideo(video) {
+                    video.style[navigator.mozGetUserMedia ? 'transform' : '-webkit-transform'] = 'rotate(0deg)';
+                    setTimeout(function() {
+                        video.style[navigator.mozGetUserMedia ? 'transform' : '-webkit-transform'] = 'rotate(360deg)';
+                    }, 1000);
+                }
+
+                (function() {
+                    var uniqueToken = document.getElementById('unique-token');
+                    if (uniqueToken)
+                        if (location.hash.length > 2) uniqueToken.parentNode.parentNode.parentNode.innerHTML = 
+                            ' <center> <h2 class="style3"> <a href="' + location.href + '" id="share_link" target="_blank"> Right click to copy & share this private link </a> </h2> </center>';
+                        else uniqueToken.innerHTML = uniqueToken.parentNode.parentNode.href = '#' + (Math.random() * new Date().getTime()).toString(36).toUpperCase().replace( /\./g , '-');
+                })();
+
+                function scaleVideos() {
+                    var videos = document.querySelectorAll('video'),
+                        length = videos.length, video;
+
+                    var minus = 130;
+                    var windowHeight = 700;
+                    var windowWidth = 600;
+                    var windowAspectRatio = windowWidth / windowHeight;
+                    var videoAspectRatio = 4 / 3;
+                    var blockAspectRatio;
+                    var tempVideoWidth = 0;
+                    var maxVideoWidth = 0;
+
+                    for (var i = length; i > 0; i--) {
+                        blockAspectRatio = i * videoAspectRatio / Math.ceil(length / i);
+                        if (blockAspectRatio <= windowAspectRatio) {
+                            tempVideoWidth = videoAspectRatio * windowHeight / Math.ceil(length / i);
+                        } else {
+                            tempVideoWidth = windowWidth / i;
+                        }
+                        if (tempVideoWidth > maxVideoWidth)
+                            maxVideoWidth = tempVideoWidth;
+                    }
+                    for (var i = 0; i < length; i++) {
+                        video = videos[i];
+                        if (video)
+                            video.width = maxVideoWidth - minus;
+                    }
+                }
+
+                window.onresize = scaleVideos;
+
+            </script>
+        </article>
+    </body>
+</html>
